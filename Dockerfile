@@ -4,11 +4,11 @@ ARG PORT=80
 ENV PORT=$PORT
 
 # Install app dependencies
-COPY package*.json ./
+COPY package.json /usr/src/larry-client/package.json
 RUN yarn install --non-interactive --production
 
 # Bundle app source
-COPY . .
+COPY . /usr/src/larry-client
 
 # Network
 EXPOSE ${PORT}
