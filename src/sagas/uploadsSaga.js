@@ -45,7 +45,7 @@ export function* uploadsSaga() {
 function fetchUploadApi({payload: {upload: {_id}}}) {
     return fetch(`${process.env.REACT_APP_API_ENDPOINT}/uploads/${_id}`, {
         headers: {
-            "Accept": "application/json; charset=utf-8",
+            "Accept": "application/json",
         },
     })
         .then(response => {
