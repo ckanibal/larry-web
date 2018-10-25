@@ -57,33 +57,34 @@ const UploadDetailView = ({_id, title, lead, description, tags, images, files, a
 
     return (
         <article className="uk-article">
-            <div uk-slideshow="ratio: 9:3; min-height: 480; autoplay: true">
+            <div className="uk-inline" style={{display: "block"}}
+                 uk-slideshow="ratio: 9:3; min-height: 480; autoplay: true">
                 <ul className="uk-slideshow-items">
                     <li>
                         <img data-src="https://picsum.photos/1600/1200?random" width="1600" height="1200" alt=""
                              uk-img="true"/>
-                        <div className="uk-overlay uk-overlay-primary uk-position-bottom">
-                            <h1 className="uk-article-title">{title}</h1>
-                            <p className="uk-article-meta">
-                                <span uk-icon="icon:comment; ratio: 0.8"> </span> {comments.count || 0}
-                                <span>
+                    </li>
+                </ul>
+                <div className="uk-overlay uk-overlay-primary uk-position-bottom">
+                    <h1 className="uk-article-title">{title}</h1>
+                    <p className="uk-article-meta">
+                        <span uk-icon="icon:comment; ratio: 0.8"> </span> {comments.count || 0}
+                        <span>
                                 <span className="uk-margin-small-left"
                                       uk-icon="icon:heart; ratio: 0.8"> </span> {voting.sum || 0}
-                                    <a className="uk-margin-small-left uk-icon-link" uk-icon="plus-circle"
-                                       onClick={() => onClickVote(_id, 1)}><span className="sr-only">Vote up</span></a>
+                            <a className="uk-margin-small-left uk-icon-link" uk-icon="plus-circle"
+                               onClick={() => onClickVote(_id, 1)}><span className="sr-only">Vote up</span></a>
                                     <a className="uk-icon-link" uk-icon="minus-circle"
                                        onClick={() => onClickVote(_id, -1)}><span
                                         className="sr-only">Vote down</span></a>
                                 </span>
-                                <br/>
-                                Uploaded {moment(createdAt).fromNow()} by <b>{author.username}</b>, Last
-                                Update {moment(updatedAt).fromNow()}
-                            </p>
-                            <p className="uk-text-lead uk-height-max-small"
-                               dangerouslySetInnerHTML={renderLead(lead)}/>
-                        </div>
-                    </li>
-                </ul>
+                        <br/>
+                        Uploaded {moment(createdAt).fromNow()} by <b>{author.username}</b>, Last
+                        Update {moment(updatedAt).fromNow()}
+                    </p>
+                    <p className="uk-text-lead uk-height-max-small"
+                       dangerouslySetInnerHTML={renderLead(lead)}/>
+                </div>
             </div>
             <div className="uk-section uk-section-muted uk-padding-small">
                 <div className="uk-overflow-auto tags" style={{whiteSpace: "nowrap"}}>
@@ -118,7 +119,7 @@ const UploadDetailView = ({_id, title, lead, description, tags, images, files, a
             </div>
             <div className="uk-section uk-section-default uk-padding-small">
                 <p dangerouslySetInnerHTML={renderDescription(description)}/>
-                <h4>Download</h4>
+                <h4>Downloads</h4>
                 <ul className="uk-list uk-list-striped">
                     {
                         files.map(({filename, length, _id}, idx) => (

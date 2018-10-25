@@ -1,8 +1,8 @@
 import * as actions from '../actions';
 
+const user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
-    current: null,
-    loading: false,
+    current: user,
     error: null,
 };
 
@@ -13,8 +13,7 @@ const userReducer = (state = initialState, action) => {
             // Also, reset any errors. We're starting fresh.
             return {
                 ...state,
-                loading: true,
-                error: null
+                error: null,
             };
 
         case actions.USER_LOGIN_SUCCESS:
@@ -22,7 +21,6 @@ const userReducer = (state = initialState, action) => {
             // Also, replace the items with the ones from the server
             return {
                 ...state,
-                loading: false,
                 current: action.payload.user,
             };
 
@@ -34,15 +32,18 @@ const userReducer = (state = initialState, action) => {
             // around! Do whatever seems right.
             return {
                 ...state,
-                loading: false,
                 error: action.payload.error,
                 current: null,
             };
 
-        case actions.USER_LOGOUT:
+        case actions.USER_LOGOUT_BEGIN:
             return {
                 ...state,
-                loading: false,
+                error: null,
+            };
+        case actions.USER_LOGOUT_SUCCESS:
+            return {
+                ...state,
                 current: null,
             };
 

@@ -1,28 +1,34 @@
 import fetch from 'cross-fetch';
-import {takeLatest, put, call, all} from 'redux-saga/effects';
+import {delay} from 'redux-saga'
+import {all, call, put, race, takeLatest} from 'redux-saga/effects';
 import * as actions from '../actions';
 
 
-function fetchUploadsApi(...args) {
-    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/uploads/`, {
+async function fetchUploadsApi(...args) {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/uploads/`, {
+        credentials: "include",
         headers: {
-            "Accept":
-                "application/json; charset=utf-8",
+            "Accept": "application/json",
         },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            } else {
-                return response.json()
-            }
-        });
+    });
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw Error(response.statusText);
+    }
 }
 
 function* fetchUploads(...args) {
     try {
-        const uploads = yield call(fetchUploadsApi, ...args);
-        yield put(actions.uploadsFetchSuccess(uploads));
+        const {uploads} = yield race({
+            uploads: call(fetchUploadsApi, ...args),
+            timeout: call(delay, process.env.REACT_APP_API_TIMEOUT),
+        });
+        if (uploads) {
+            yield put(actions.uploadsFetchSuccess(uploads));
+        } else {
+            throw new Error("API Timeout.");
+        }
     } catch (error) {
         yield all([
             put(actions.uploadsFetchFailure(error)),

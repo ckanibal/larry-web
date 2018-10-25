@@ -1,7 +1,7 @@
 import { fork } from 'redux-saga/effects';
 import { commentsSaga } from './commentsSaga';
 import { uploadsSaga, uploadSaga } from './uploadsSaga';
-import { userSaga } from './userSaga';
+import { loginSaga, logoutSaga, } from './userSaga';
 
 export function* startup() {
 }
@@ -11,5 +11,6 @@ export default function* root() {
     yield fork(commentsSaga);
     yield fork(uploadsSaga);
     yield fork(uploadSaga);
-    yield fork(userSaga);
+    yield fork(loginSaga);
+    yield fork(logoutSaga);
 }

@@ -5,7 +5,10 @@ import * as actions from '../actions';
 
 
 function fetchCommentsApi({_id, ...args}) {
-    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/comments/?upload=${_id}`)
+    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/comments/?upload=${_id}`, {
+        credentials: "include",
+        mode: "cors",
+    })
         .then(response => {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -17,7 +20,7 @@ function fetchCommentsApi({_id, ...args}) {
 
 function* fetchComments({payload}) {
     try {
-        const comments = yield call(fetchCommentsApi, payload.upload);
+        const {comments} = yield call(fetchCommentsApi, payload.upload);
         yield put(actions.commentsFetchSuccess(comments));
     } catch (err) {
         yield all([

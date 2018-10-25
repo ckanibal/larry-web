@@ -19,6 +19,7 @@ import Icons from 'uikit/dist/js/uikit-icons.js';
 
 import './App.css';
 import FAQPage from "./FAQPage";
+import UploadCreatePage from "./UploadCreatePage";
 
 
 // loads the Icon plugin
@@ -38,6 +39,8 @@ const App = ({match, location, history, ...props}) => {
         }
     )(UploadDetailView));
 
+    const UploadCreatePageWithData = connect(state => ({author: state.user.current}))(UploadCreatePage);
+
     const ErrorDisplayWithData = connect(state => ({
         ...state.errors,
     }))(ErrorDisplay);
@@ -52,6 +55,9 @@ const App = ({match, location, history, ...props}) => {
             <SpinnerWithData/>
             <ErrorDisplayWithData onClose={(error) => props.dispatch(actions.errorsRemoveError(error))}/>
             <Switch>
+                <Route path={`/uploads/new`} children={({match}) => (
+                    <UploadCreatePageWithData {...props} />
+                )}/>
                 <Route path={`/uploads/:uploadID`} children={({match}) => (
                     <UploadDetailViewWithData {...props} {...match.params} />
                 )}/>

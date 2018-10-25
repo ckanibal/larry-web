@@ -42,6 +42,7 @@ export const uploadsFilterRemove = ({filter}) => ({
 export const UPLOAD_FETCH_BEGIN = 'UPLOAD_FETCH_BEGIN';
 export const UPLOAD_FETCH_SUCCESS = 'UPLOAD_FETCH_SUCCESS';
 export const UPLOAD_FETCH_FAILURE = 'UPLOAD_FETCH_FAILURE';
+export const UPLOAD_ADD_BEGIN = 'UPLOAD_ADD_BEGIN';
 
 export const uploadFetchBegin = upload => ({
    type: UPLOAD_FETCH_BEGIN,
@@ -57,3 +58,9 @@ export const uploadFetchFailure = error => ({
     type: UPLOAD_FETCH_FAILURE,
     payload: {error},
 });
+
+export const uploadAddBegin = payload => ({
+    type: UPLOAD_ADD_BEGIN,
+    payload
+});
+

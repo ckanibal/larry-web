@@ -1,24 +1,24 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
 import * as actions from "../actions";
+import Spinner from "./Spinner";
+import {push} from "connected-react-router";
 
-const MenuProfile = ({username, onClickLogout}) => (
+const MenuProfile = ({username, onClickAddUpload, onClickSettings, onClickLogout}) => (
     <div>
         <h4 className="uk-margin-small-bottom uk-margin-remove-adjacent">
-            <span uk-icon="icon: user"> </span>
-            {username}
+            <span uk-icon="icon: user"> </span> {username}
         </h4>
         <p>
             This could be your chart!
         </p>
         <hr/>
-        <ul className="uk-nav-default uk-nav-parent-icon" uk-nav="">
-            <li className="uk-nav-header">Header</li>
-            <li><a><span className="uk-margin-small-right"
-                         data-uk-icon="icon: table"> </span> Item</a></li>
-            <li><a><span className="uk-margin-small-right"
-                         data-uk-icon="icon: thumbnails"> </span> Item</a>
+        <ul className="uk-iconnav uk-iconnav-vertical">
+            <li className="uk-nav-header">Choose wisely.</li>
+            <li><a onClick={onClickAddUpload}><span className="uk-margin-small-right"
+                                                    data-uk-icon="icon: cloud-upload"> </span> Add upload</a></li>
+            <li><a onClick={onClickSettings}><span className="uk-margin-small-right"
+                                                   data-uk-icon="icon: settings"> </span> Settings</a>
             </li>
             <li>
                 <a onClick={onClickLogout}>
@@ -59,13 +59,14 @@ class LocalLogin extends Component {
             <form onSubmit={this.onSubmit}>
                 <div className="uk-inline">
                     <span className="uk-margin-small uk-form-icon" uk-icon="icon: user"> </span>
-                    <input className="uk-input" placeholder="Username" type="text" name="identity"
-                           value={this.state.identity} onChange={this.handleInputChange}/>
+                    <input className={`uk-input ${this.props.error ? 'uk-form-danger' : ''}`} placeholder="Username"
+                           type="text" name="identity" value={this.state.identity} onChange={this.handleInputChange}/>
                 </div>
                 <div className="uk-margin-small uk-inline">
                     <span className="uk-form-icon" uk-icon="icon: lock"> </span>
-                    <input className="uk-input" placeholder="Password" type="password" name="password"
-                           value={this.state.password} onChange={this.handleInputChange}/>
+                    <input className={`uk-input ${this.props.error ? 'uk-form-danger' : ''}`} placeholder="Password"
+                           type="password" name="password" value={this.state.password}
+                           onChange={this.handleInputChange}/>
                 </div>
                 <div className="uk-margin-small uk-inline">
                     <span className="uk-form-icon" uk-icon="icon: sign-in"> </span>
@@ -91,20 +92,29 @@ const LoginProvider = ({clonkspot, local, ...props}) => (
     </div>
 );
 
-const UserMenu = ({user, ...props}) => (
+const UserMenu = ({user, loading, ...props}) => (
     <div align="center">
-        {user.current ?
-            <MenuProfile {...user} onClickLogout={() => props.dispatch(actions.userLogout())}/>
-            :
-            <LoginProvider local clonkspot {...props} />}
+        {
+            user.current ?
+                <MenuProfile {...user.current}
+                             onClickAddUpload={() => props.dispatch(push(`/uploads/new`))}
+                             onClickSettings={() => props.dispatch(actions.userSettingsShow())}
+                             onClickLogout={() => props.dispatch(actions.userLogoutBegin())}
+                />
+                :
+                <LoginProvider local clonkspot {...user} {...props} />
+        }
+        <div className="uk-position-center">
+            <Spinner loading={loading['USER_LOGIN'] === 'BEGIN'}/>
+        </div>
     </div>
 );
 
-UserMenu.propTypes = {
-};
+UserMenu.propTypes = {};
 
 const mapStateToProps = state => ({
     user: state.user,
+    loading: state.loading,
 });
 
 export default connect(mapStateToProps)(UserMenu);

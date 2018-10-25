@@ -19,7 +19,7 @@ const uploadReducer = (state = initialState, action) => {
             // Also, replace the items with the ones from the server
             return {
                 ...state,
-                items: action.payload.uploads
+                items: action.payload.uploads.uploads,
             };
 
         case actions.UPLOADS_FETCH_FAILURE:

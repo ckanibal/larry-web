@@ -26,8 +26,8 @@ const NavBar = ({...props}) => (
 
         <div className="uk-navbar-right">
             <ul className="uk-navbar-nav uk-margin-right uk-parent">
-                <li className="uk-visible@s uk-active"><a href="/">Home</a></li>
-                <li className="uk-visible@s"><a href="/faq">FAQ</a></li>
+                <li className="uk-visible@s uk-active"><Link to="/">Home</Link></li>
+                <li className="uk-visible@s"><Link to="/faq">FAQ</Link></li>
                 <li className="uk-visible@s">
                     <a data-uk-icon="icon:user"><span className="sr-only">User</span></a>
                     <div className="drop-nav uk-dropdown uk-navbar-dropdown-width-2"
