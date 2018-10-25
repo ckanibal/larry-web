@@ -10,7 +10,7 @@ const NavBar = ({...props}) => (
     <nav className="uk-navbar-container" uk-navbar="">
         <div className="uk-navbar-left">
             <Link className="uk-navbar-item uk-logo" to="/">
-                <img className="App-logo uk-padding-small" src={logo} alt="Logo" data-uk-svg/>
+                <img className="App-logo uk-padding-small" src={logo} alt="Logo" uk-svg={true}/>
                 Larry
             </Link>
         </div>
