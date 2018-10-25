@@ -142,6 +142,7 @@ const UploadDetailView = ({_id, title, lead, description, tags, images, files, a
 
 UploadDetailView.defaultProps = {
     description: '',
+    lead: '',
     onClickVote: console.log,
 };
 
