@@ -30,7 +30,7 @@ const UploadCard = ({onClick, _id, title, lead, tags, pic, updatedAt, author, vo
                             tags
                                 .slice(0, 2)
                                 .map(_.property('text'))
-                                .reduce((prev, curr) => [prev, ' / ', curr])
+                                .reduce((prev, curr) => [prev, ' / ', curr], '')
                         }
                     </span>
                 </div>
@@ -47,7 +47,8 @@ const UploadCard = ({onClick, _id, title, lead, tags, pic, updatedAt, author, vo
                      data-uk-img/>
                 <div className="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-primary">
                     <span uk-icon="icon:heart; ratio: 0.8"> </span> {voting.sum || 0}
-                    <span uk-icon="icon:comment; ratio: 0.8" style={{marginLeft: '1em'}}> </span> {comments.count || 0}
+                    <span uk-icon="icon:comment; ratio: 0.8"
+                          style={{marginLeft: '1em'}}> </span> {comments ? comments.count : 0}
                 </div>
             </div>
         </div>
@@ -91,6 +92,10 @@ UploadCard.propTypes = {
             count: PropTypes.number,
         }
     )
+};
+
+UploadCard.defaultProps = {
+    lead: "Lead text missing.",
 };
 
 export default UploadCard;
